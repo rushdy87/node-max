@@ -1,0 +1,73 @@
+Node.js Module
+  - Module in Node.js is a simple or complex functionality organized in single or multiple JavaScript 
+  files which can be reused throughout the Node.js application.
+  - Node.js includes three types of modules:
+    1- Core Modules.
+    2- Local Modules.
+    3- Third Party Modules.
+Core Modules:
+  - The core modules include bare minimum functionalities of Node.js.
+  - some of the important core modules in Node.js:
+    # http: module includes classes, methods and events to create Node.js http server.
+    # https: module includes classes, methods and events to launch SSL server.
+    # fs: module includes classes, methods, and events to work with file I/O.
+    # path: module includes methods to deal with file paths.
+    # os: module includes methods to deal with opreting system.
+___________________________________________________________________________________________________________
+Node.js program lifecycle:
+node server.js ==> Start the script ==> Parse code, register variables & functions ==> event loop* 
+
+* The event loop is what allows Node.js to perform non-blocking I/O operations** — despite the fact that 
+  JavaScript is single-threaded — by offloading operations to the system kernel whenever possible.
+  simply it keeps on running as long as event listeners registered.
+** Non-blocking I/O operations allow a single process to serve multiple requests at the same time. Instead 
+  of the process being blocked and waiting for I/O operations to complete, the I/O operations are delegated 
+  to the system, so that the process can execute the next piece of code. Non-blocking I/O operations provide 
+  a callback function that is called when the operation is completed.
+___________________________________________________________________________________________________________
+Requests:
+  - req.url : every thing after our host => with 'localhost:300', the url is '/'
+  - req.method: GET or POST, ....
+  - req.headers: metadata added to request
+___________________________________________________________________________________________________________
+Response:
+  set headers => write => end
+___________________________________________________________________________________________________________
+HTTP headers:
+The following article provides a great overview of available headers and their role:
+  https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers
+___________________________________________________________________________________________________________
+Parsing Request bodies:
+req.on('data', (chunk) => {     //request listeners;
+      body.push(chunk);
+    });
+    req.on('end', () => {
+      const parsedBody = Buffer.concat(body).toString(); //persing this chunk
+      const message = parsedBody.split('=')[1];
+    });
+//The listeners on the incoming request are cleaned up when the request ends (i.e. when req.on('end') is invoked).
+___________________________________________________________________________________________________________
+Blocking and Non-blocking
+  - worked with files available in two modes:
+    1- synchronous mode.
+    2- Asynchronous mode.
+___________________________________________________________________________________________________________
+exporting in node.js
+in two ways:
+  1- for single exporting:
+    module.exports = <variable name>
+  2- for multiple exporting:
+    module.exports = {
+      <key>: <variable name>
+      ....
+    }
+___________________________________________________________________________________________________________
+Useful resources:
+
+Official Node.js Docs: https://nodejs.org/en/docs/guides/
+
+Full Node.js Reference (for all core modules): https://nodejs.org/dist/latest/docs/api/
+
+More about the Node.js Event Loop: https://nodejs.org/en/docs/guides/event-loop-timers-and-nexttick/
+
+Blocking and Non-Blocking Code: https://nodejs.org/en/docs/guides/dont-block-the-event-loop/
