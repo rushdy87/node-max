@@ -63,11 +63,40 @@ in two ways:
     }
 ___________________________________________________________________________________________________________
 Useful resources:
-
 Official Node.js Docs: https://nodejs.org/en/docs/guides/
-
 Full Node.js Reference (for all core modules): https://nodejs.org/dist/latest/docs/api/
-
 More about the Node.js Event Loop: https://nodejs.org/en/docs/guides/event-loop-timers-and-nexttick/
-
 Blocking and Non-Blocking Code: https://nodejs.org/en/docs/guides/dont-block-the-event-loop/
+___________________________________________________________________________________________________________
+npm
+  npm is the package manager for the Node JavaScript platform. It puts modules in place so that node can 
+  find them, and manages dependency conflicts intelligently. It is extremely configurable to support a 
+  wide variety of use cases. Most commonly, it is used to publish, discover, install, and develop node 
+  programs.
+___________________________________________________________________________________________________________
+package.json
+  You can add a package.json file to your package to make it easy for others to manage and install. Packages 
+  published to the registry must contain a package.json file.
+  A package.json file:
+    - lists the packages your project depends on
+    - specifies versions of a package that your project can use using semantic versioning rules
+    - makes your build reproducible, and therefore easier to share with other developers
+
+  You can create a package.json file by running a CLI questionnaire or creating a default package.json file.
+  npm init
+___________________________________________________________________________________________________________
+you can make a script in package.json
+for run a custom script in trmnal: npm run <scriptName> (npm run start-server)
+for run a spcial(test, start, stop, restart) script in trmnal: npm <scriptName> (npm run start)
+___________________________________________________________________________________________________________
+npm-install
+  - npm install [<package-spec> ...]
+    aliases: add, i, in, ins, inst, insta, instal, isnt, isnta, isntal, isntall
+
+  - npm install
+    install packages in the dependencies section im package.json
+
+  - You could install packages globally if you wanted (this is NOT required though - because we can just run it 
+locally): npm install -g nodemon would do the trick. Specifically the -g flag ensures that the package gets 
+added as a global package which you now can use anywhere on your machine, directly from inside the terminal 
+or command prompt.
