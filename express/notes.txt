@@ -1,0 +1,205 @@
+Framework: Helper functions, tools and ruls that help you build your application.
+____________________________________________________________________________________________
+Alterntives to Express.js
+- Vanilla Node.js.
+- Adoni.js
+- Koa
+- Sails.js
+...
+____________________________________________________________________________________________
+Middleware
+  - express.js is all about middlewares.
+  - Middleware functions are functions that have access to the request object (req), the 
+    response object (res), and the next function in the application’s request-response 
+    cycle. The next function is a function in the Express router which, when invoked, 
+    executes the middleware succeeding the current middleware.
+  
+  - Middleware functions can perform the following tasks:
+    # Execute any code.
+    # Make changes to the request and the response objects.
+    # End the request-response cycle.
+    # Call the next middleware in the stack.
+
+{request}==>middleware==>middleware==>.....==>middleware==>{response}
+
+app.use([path,] callback [, callback...])
+  Mounts the specified middleware function or functions at the specified path: the middleware 
+  function is executed when the base of the requested path matches path.
+
+____________________________________________________________________________________________
+res.send([body])
+Sends the HTTP response.
+The body parameter can be a Buffer object, a String, an object, Boolean, or an Array
+____________________________________________________________________________________________
+res.redirect([status,] path)
+  Redirects to the URL derived from the specified path, with specified status, a positive 
+  integer that corresponds to an HTTP status code . If not specified, status defaults to 
+  “302 “Found”.
+____________________________________________________________________________________________
+req.body
+  Contains key-value pairs of data submitted in the request body. By default, it is undefined, 
+  and is populated when you use body-parsing middleware such as express.json() or 
+  express.urlencoded().
+
+express.json([options])
+  This is a built-in middleware function in Express. It parses incoming requests with JSON 
+  payloads and is based on body-parser.
+
+express.urlencoded([options])
+  This is a built-in middleware function in Express. It parses incoming requests with 
+  urlencoded payloads and is based on body-parser.
+
+the difference is express.json() is a body parser for post request except html post form and 
+express.urlencoded({extended: false}) is a body parser for html post form.
+____________________________________________________________________________________________
+app.get(path, callback [, callback ...])
+Routes HTTP GET requests to the specified path with the specified callback functions.
+
+app.post(path, callback [, callback ...])
+Routes HTTP POST requests to the specified path with the specified callback functions.
+____________________________________________________________________________________________
+Difference between app.use and app.get in express.js (stackoverflow)
+app.use() is intended for binding middleware to your application. The path is a "mount" or 
+"prefix" path and limits the middleware to only apply to any paths requested that begin 
+with it. It can even be used to embed another application:
+
+// subapp.js
+var express = require('express');
+var app = modules.exports = express();
+// ...
+// server.js
+var express = require('express');
+var app = express();
+
+app.use('/subapp', require('./subapp'));
+
+// ...
+By specifying / as a "mount" path, app.use() will respond to any path that starts with /, 
+which are all of them and regardless of HTTP verb used:
+
+GET /
+PUT /foo
+POST /foo/bar
+etc.
+app.get(), on the other hand, is part of Express' application routing and is intended for 
+matching and handling a specific route when requested with the GET HTTP verb:
+
+GET /
+And, the equivalent routing for your example of app.use() would actually be:
+
+app.all(/^\/.*/, function (req, res) {
+    res.send('Hello');
+});
+(Update: Attempting to better demonstrate the differences.)
+
+The routing methods, including app.get(), are convenience methods that help you align responses 
+to requests more precisely. They also add in support for features like parameters and next('route').
+
+Within each app.get() is a call to app.use(), so you can certainly do all of this with app.use() 
+directly. But, doing so will often require (probably unnecessarily) reimplementing various amounts 
+of boilerplate code.
+
+Examples:
+
+For simple, static routes:
+
+app.get('/', function (req, res) {
+  // ...
+});
+vs.
+
+app.use('/', function (req, res, next) {
+  if (req.method !== 'GET' || req.url !== '/')
+    return next();
+
+  // ...
+});
+With multiple handlers for the same route:
+
+app.get('/', authorize('ADMIN'), function (req, res) {
+  // ...
+});
+vs.
+
+const authorizeAdmin = authorize('ADMIN');
+
+app.use('/', function (req, res, next) {
+  if (req.method !== 'GET' || req.url !== '/')
+    return next();
+
+  authorizeAdmin(req, res, function (err) {
+    if (err) return next(err);
+
+    // ...
+  });
+});
+With parameters:
+
+app.get('/item/:id', function (req, res) {
+  let id = req.params.id;
+  // ...
+});
+vs.
+
+const pathToRegExp = require('path-to-regexp');
+
+function prepareParams(matches, pathKeys, previousParams) {
+  var params = previousParams || {};
+
+  // TODO: support repeating keys...
+  matches.slice(1).forEach(function (segment, index) {
+    let { name } = pathKeys[index];
+    params[name] = segment;
+  });
+
+  return params;
+}
+
+const itemIdKeys = [];
+const itemIdPattern = pathToRegExp('/item/:id', itemIdKeys);
+
+app.use('/', function (req, res, next) {
+  if (req.method !== 'GET') return next();
+
+  var urlMatch = itemIdPattern.exec(req.url);
+  if (!urlMatch) return next();
+
+  if (itemIdKeys && itemIdKeys.length)
+    req.params = prepareParams(urlMatch, itemIdKeys, req.params);
+
+  let id = req.params.id;
+  // ...
+});
+Note: Express' implementation of these features are contained in its Router, Layer, and Route.
+____________________________________________________________________________________________
+Router
+  A router object is an isolated instance of middleware and routes. You can think of it as a 
+  “mini-application,” capable only of performing middleware and routing functions. Every 
+  Express application has a built-in app router.
+  The top-level express object has a Router() method that creates a new router object.
+____________________________________________________________________________________________
+path (core module in Node)
+The path module provides utilities for working with file and directory paths. It can be accessed using:
+cons path = require('path');
+
+path.join([...paths])
+The path.join() method joins all given path segments together using the platform-specific separator as a 
+delimiter, then normalizes the resulting path.
+path.join('/foo', 'bar', 'baz/asdf', 'quux', '..');
+// Returns: '/foo/bar/baz/asdf'
+
+__dirname
+The directory name of the current module.
+
+Example: running node example.js from /Users/mjr
+console.log(__dirname);
+// Prints: /Users/mjr
+
+path.dirname(path)
+The path.dirname() method returns the directory name of a path, similar to the Unix dirname command.
+path.dirname('/foo/bar/baz/asdf/quux');
+// Returns: '/foo/bar/baz/asdf'
+____________________________________________________________________________________________
+Serving Files Statically
+express.static(root, [options])
+This is a built-in middleware function in Express. It serves static files and is based on serve-static.
