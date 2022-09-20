@@ -1,0 +1,53 @@
+Different Kinds of Databases:
+	- SQL
+	- NoSQL
+__________________________________________________________________
+What is SQL?
+	- thinks in so-called tables.
+	- in each table you have fileds (or columns).
+	- We fill in data for these fileds, so-called records (or rows).
+	- SQL Databases allow you to relate different tables.
+	- Core SQL Database Characteristics:
+		* Data Schema. ==> all data in the table has to fit schema.
+		* Data Relations:  ==> tables are connected
+			# one-to-one.
+			#one-to-many.
+			#many-to-many.
+	- SQL ==> stands for Structured Query Language.
+	- Queries: are commands we use to interact with database.
+__________________________________________________________________
+NoSQL
+	- it doesn't follow the approch SQL follows.
+	- collections (you can think of them as a tables).
+	- in collections we fimdes Documents (looks like a javascript object).
+	- NoSQL doesn't have a schema.
+	- NoSQL Database Characteristics:
+		* No Data Schema.
+		* No data Relations:
+			** You can relate Documents but you don't have to (and you shouldn't 
+			do it too much or Queries become slow)
+__________________________________________________________________
+Horizontal and Vertical Scaling In Databases
+	- Scaling alters size of a system. In the scaling process, we either 
+		compress or expand the system to meet the expected needs. The scaling 
+		operation can be achieved by adding resources to meet the smaller 
+		expectation in the current system, or by adding a new system in the 
+		existing one, or both.
+	- Vertical Scaling: improve Servers capacity / Hardware
+	- Horizontal Scaling: Add more Servers (and merge theme in one database).
+__________________________________________________________________
+SQL vs. NoSQL
+	- SQL:
+		* Data uses Schema.
+		* Relations.
+		* Data is distributed across multiple tables.
+		* Horizontal scaling is difficult/ impossible;
+			Vertical scaling is possible.
+		* Limitations for lots of (thousands) read and
+			write queries per second.
+	- NoSQL:
+		* Schema-less
+		* No (or very few) Relations.
+		* Data is typically merged/nested in a few collections.
+		* Both Horizontal and Vertical scaling is possible.
+		* Great performance for mass read and write requests.
