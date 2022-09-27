@@ -1,0 +1,32 @@
+MySQL
+Node MySQL 2
+  MySQL client for Node.js with focus on performance. Supports prepared 
+  statements, non-utf8 encodings, binary log protocol, compression, ssl
+
+the steps:
+1- install MySQL.
+2- install MySQL2 pacge.
+3- connect the app to MySQL (util/database.js)
+
+____________________________________________________________________________
+Useful resource:
+Learn more about MySQL/ SQL in General: https://www.w3schools.com/sql/
+Learn more about the Node MySQL Package: https://github.com/sidorares/node-mysql2
+____________________________________________________________________________
+Sequelize
+  - Object-Relational Mapping library.
+  - Sequelize is a promise-based ORM for Node.js v4 and upwards. It supports 
+    the dialects PostgreSQL, MySQL, SQLite and MSSQL and features solid 
+    transaction support, relations, read replication and more.
+  - An ORM is known as Object Relational Mapper. This is a tool or a level of 
+    abstraction which maps(converts) data in a relational database into 
+    programmatic objects that can be manipulated by a programmer using a 
+    programming language(usually an OOP language).
+
+    {js Object} =====Mapped===> SQL row
+
+  - Sequelize offerce:
+    * Models.
+    * Instances these Models.
+    * Queries
+    * Assocition

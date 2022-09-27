@@ -3,6 +3,7 @@ const path = require('path');
 const express = require('express');
 
 const errorsController = require('./controllers/errors');
+const sequelize = require('./util/database');
 
 const app = express();
 
@@ -20,4 +21,10 @@ app.use(shopRoutes);
 
 app.use(errorsController.get404);
 
-app.listen(3000);
+sequelize
+  .sync()
+  .then((result) => {
+    // console.log(result);
+    app.listen(3000);
+  })
+  .catch((error) => console.log(error));
