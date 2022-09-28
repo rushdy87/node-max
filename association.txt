@@ -1,0 +1,17 @@
+Association
+  - You can also say relation.
+  - An association is a business component that defines a 
+  relationship between two entity objects based on common 
+  attributes.
+  - The relationship can be:
+    one-to-one,
+    one-to-many,
+    or many-to-many.
+  - The association allows entity objects to access the data 
+  of other entity objects through a persistent reference.
+  - Sequelize provides four types of associations that should 
+    be combined to create them:
+      The HasOne association
+      The BelongsTo association
+      The HasMany association
+      The BelongsToMany association

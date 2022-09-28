@@ -10,12 +10,13 @@ exports.getAddProduct = (req, res, next) => {
 
 exports.postAddProduct = (req, res, next) => {
   const { title, imageUrl, description, price } = req.body;
-  Product.create({
-    title,
-    price,
-    imageUrl,
-    description,
-  })
+  req.user
+    .createProduct({
+      title,
+      price,
+      imageUrl,
+      description,
+    }) // this methode added from Sequelize after Association
     .then((result) => {
       console.log('Create product');
       res.redirect('/admin/products');
@@ -31,8 +32,11 @@ exports.getEditProduct = (req, res, next) => {
     res.redirect('/');
   }
   const { productId } = req.params;
-  Product.findByPk(productId)
-    .then((product) => {
+  req.user
+    .getProducts({ where: { id: productId } })
+    // Product.findByPk(productId)
+    .then((products) => {
+      product = products[0];
       if (!product) {
         return res.redirect('/');
       }
@@ -64,7 +68,8 @@ exports.postEditProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-  Product.findAll()
+  req.user
+    .getProducts()
     .then((products) => {
       res.render('admin/products', {
         prods: products,
