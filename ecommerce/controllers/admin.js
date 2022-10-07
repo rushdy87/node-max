@@ -10,13 +10,17 @@ exports.getAddProduct = (req, res, next) => {
 
 exports.postAddProduct = (req, res, next) => {
   const { title, imageUrl, description, price } = req.body;
-  req.user
-    .createProduct({
-      title,
-      price,
-      imageUrl,
-      description,
-    }) // this methode added from Sequelize after Association
+  const userId = req.user._id;
+  const product = new Product(
+    title,
+    imageUrl,
+    description,
+    price,
+    null,
+    userId
+  );
+  product
+    .save()
     .then((result) => {
       console.log('Create product');
       res.redirect('/admin/products');
@@ -32,11 +36,8 @@ exports.getEditProduct = (req, res, next) => {
     res.redirect('/');
   }
   const { productId } = req.params;
-  req.user
-    .getProducts({ where: { id: productId } })
-    // Product.findByPk(productId)
-    .then((products) => {
-      product = products[0];
+  Product.findById(productId)
+    .then((product) => {
       if (!product) {
         return res.redirect('/');
       }
@@ -52,14 +53,9 @@ exports.getEditProduct = (req, res, next) => {
 
 exports.postEditProduct = (req, res, next) => {
   const { id, title, imageUrl, description, price } = req.body;
-  Product.findByPk(id)
-    .then((product) => {
-      product.title = title;
-      product.imageUrl = imageUrl;
-      product.description = description;
-      product.price = price;
-      return product.save();
-    })
+  const product = new Product(title, imageUrl, description, price, id);
+  return product
+    .save()
     .then((result) => {
       console.log('updated product');
       res.redirect('/');
@@ -68,8 +64,7 @@ exports.postEditProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-  req.user
-    .getProducts()
+  Product.fetchAll()
     .then((products) => {
       res.render('admin/products', {
         prods: products,
@@ -84,11 +79,8 @@ exports.getProducts = (req, res, next) => {
 
 exports.postDeleteProduct = (req, res, nex) => {
   const { id } = req.body;
-  Product.findByPk(id)
-    .then((product) => {
-      return product.destroy();
-    })
-    .then((result) => {
+  Product.deleteById(id)
+    .then(() => {
       console.log('The product was deleted');
       res.redirect('/admin/products');
     })

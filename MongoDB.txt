@@ -1,0 +1,65 @@
+What is MongoDB?
+  - MongoDB is an open-source document-oriented database that 
+    is designed to store a large scale of data and also allows 
+    you to work with that data very efficiently.
+_______________________________________________________________________________
+- The MongoDB database contains collections just like the MYSQL database 
+  contains tables. You are allowed to create multiple databases and 
+  multiple collections.
+- Now inside of the collection we have documents. These documents contain 
+  the data we want to store in the MongoDB database and a single collection 
+  can contain multiple documents and you are schema-less means it is not 
+  necessary that one document is similar to another.
+- The documents are created using the fields. Fields are key-value pairs in 
+  the documents, it is just like columns in the relation database. The value 
+  of the fields can be of any BSON data types like double, string, boolean, 
+  etc.
+- The data stored in the MongoDB is in the format of BSON documents. Here, 
+  BSON stands for Binary representation of JSON documents. Or in other words, 
+  in the backend, the MongoDB server converts the JSON data into a binary form 
+  that is known as BSON and this BSON is stored and queried more efficiently.
+- In MongoDB documents, you are allowed to store nested data. This nesting of 
+  data allows you to create complex relations between data and store them in 
+  the same document which makes the working and fetching of data extremely 
+  efficient as compared to SQL. In SQL, you need to write complex joins to get 
+  the data from table 1 and table 2. The maximum size of the BSON document 
+  is 16MB.
+_______________________________________________________________________________
+How mongoDB is different from RDBMS ?
+- MongoDB: It is a non-relational and document-oriented database.
+  RDBMS: It is a relational database.
+- MongoDB: It is suitable for hierarchical data storage.
+  RDBMS: It is not suitable for hierarchical data storage.
+- MongoDB: It has a dynamic schema.
+  RDBMS: It has a predefined schema.
+- MongoDB: It centers around the CAP theorem (Consistency, Availability, 
+            and Partition tolerance).
+  RDBMS: It centers around ACID properties (Atomicity, Consistency, 
+            Isolation, and Durability).
+- MongoDB: In terms of performance, it is much faster than RDBMS.
+  RDBMS: In terms of performance, it is slower than MongoDB.
+_______________________________________________________________________________
+Relations in NoSQL:
+- Nested/Embedded document:
+        custmers collection:
+          {
+            userName: "SomeName",
+            age: 28,
+            address: {
+              street: "some Whare",
+              cite: "Some City"
+            }
+          }
+- References:
+        custmers collection:
+          {
+            userName: "SomeName"
+            favBooks: ["id1", "id2"]
+          }
+
+        books collection:
+          {
+            _id: "id1",
+            name: "The Great Gatsby"
+          }
+_______________________________________________________________________________
