@@ -1,0 +1,43 @@
+Mongoose
+elegant mongodb object modeling for node.js
+_______________________________________________________________________________
+What is Mongoose?
+  - ODM: Object Document Mapping Library.
+  - It manages relationships between data, provides schema validation, and is 
+    used to translate between objects in code and the representation of those 
+    objects in MongoDB.
+_______________________________________________________________________________
+Core Concepts:
+  - Schemas and Models.     ======>>> e.g. User, Product
+  - Instances.              ======>>> const user = new User();
+  - Queries.                ======>>> User.find();
+_______________________________________________________________________________
+Mongoose Schema vs. Model
+A Mongoose model is a wrapper on the Mongoose schema. A Mongoose schema defines 
+the structure of the document, default values, validators, etc., whereas a 
+Mongoose model provides an interface to the database for creating, querying, 
+updating, deleting records, etc.
+Creating a Mongoose model comprises primarily of three parts:
+1. Referencing Mongoose
+            const mongoose = require('mongoose');
+2. Defining the Schema
+            const emailSchema = new mongoose.Schema({
+              email: String
+            })
+    The following Schema Types are permitted:
+      - Array
+      - Boolean
+      - Buffer
+      - Date
+      - Mixed (A generic / flexible data type)
+      - Number
+      - ObjectId
+      - String
+3. Exporting a Model
+            module.exports = mongoose.model('Email', emailSchema)
+_______________________________________________________________________________
+Mongoose take a model name - Product for example - tern it to all lower case 
+and take a plural form of it, and that will use a collection name in the DB.
+_______________________________________________________________________________
+very helpful:
+https://www.freecodecamp.org/news/introduction-to-mongoose-for-mongodb-d2a7aa593c57/
