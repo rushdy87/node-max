@@ -4,7 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const errorsController = require('./controllers/errors');
-// const User = require('./models/user');
+const User = require('./models/user');
 const { mongodbPassword } = require('./dev');
 
 const DB_URL = `mongodb+srv://maxNode:${mongodbPassword}@max-node.vwto5y6.mongodb.net/shop?retryWrites=true&w=majority`;
@@ -21,14 +21,14 @@ const shopRoutes = require('./routes/shop');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use((req, res, next) => {
-//   User.findById('633e64882f4f071225f65317')
-//     .then((user) => {
-//       req.user = new User(user.name, user.email, user.cart, user._id);
-//       next();
-//     })
-//     .catch((error) => console.log(error));
-// });
+app.use((req, res, next) => {
+  User.findById('63426d53b0f56d51dc8092e4')
+    .then((user) => {
+      req.user = user;
+      next();
+    })
+    .catch((error) => console.log(error));
+});
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
@@ -38,8 +38,20 @@ app.use(errorsController.get404);
 mongoose
   .connect(DB_URL)
   .then((result) => {
+    User.findOne().then((user) => {
+      if (!user) {
+        const user = new User({
+          name: 'Admin',
+          email: 'admin@test.com',
+          cart: {
+            items: [],
+          },
+        });
+        user.save();
+      }
+    });
     app.listen(PORT, () => {
-      console.log(`Listenning to The Port ${PORT}.`);
+      console.log(`Listenning to The Port ${PORT}...`);
     });
   })
   .catch((error) => {

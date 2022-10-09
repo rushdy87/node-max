@@ -10,8 +10,8 @@ exports.getAddProduct = (req, res, next) => {
 
 exports.postAddProduct = (req, res, next) => {
   const { title, imageUrl, description, price } = req.body;
-  // const userId = req.user._id;
-  const product = new Product({ title, imageUrl, description, price });
+  const userId = req.user;
+  const product = new Product({ title, imageUrl, description, price, userId });
   product
     .save() //this method from mongoose
     .then((result) => {
@@ -64,6 +64,8 @@ exports.postEditProduct = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
   Product.find()
+    // .select('title price -_id') // choose only title and price, don't show _id
+    // .populate('userId', 'name') // populate userId, show only name
     .then((products) => {
       res.render('admin/products', {
         prods: products,

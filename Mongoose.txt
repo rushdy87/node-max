@@ -41,3 +41,21 @@ and take a plural form of it, and that will use a collection name in the DB.
 _______________________________________________________________________________
 very helpful:
 https://www.freecodecamp.org/news/introduction-to-mongoose-for-mongodb-d2a7aa593c57/
+_______________________________________________________________________________
+Query.prototype.select()
+  Parameters: arg «Object|String|Array[String]»
+  Returns: «Query» this
+  Specifies which document fields to include or exclude (also known as the 
+  query "projection")
+
+Query.prototype.populate()
+  Parameters:
+    - path «Object|String|Array[String]» either the path(s) to populate or 
+    an object specifying all parameters
+    - [select] «Object|String» Field selection for the population query
+    - [model] «Model» The model you wish to use for population. If not specified, 
+    populate will look up the model by the name in the Schema's ref field.
+    - [match] «Object» Conditions for the population query
+    - [options] «Object» Options for the population query (sort, etc)
+  Returns:«Query» this
+  Specifies paths which should be populated with other documents.
